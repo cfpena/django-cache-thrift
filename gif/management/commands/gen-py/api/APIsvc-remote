@@ -25,6 +25,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print 'Functions:'
   print '  string getTop()'
   print '  string getTopNoCache()'
+  print '  string getGifs()'
   print ''
   sys.exit(0)
 
@@ -87,6 +88,12 @@ elif cmd == 'getTopNoCache':
     print 'getTopNoCache requires 0 args'
     sys.exit(1)
   pp.pprint(client.getTopNoCache())
+
+elif cmd == 'getGifs':
+  if len(args) != 0:
+    print 'getGifs requires 0 args'
+    sys.exit(1)
+  pp.pprint(client.getGifs())
 
 else:
   print 'Unrecognized method %s' % cmd
