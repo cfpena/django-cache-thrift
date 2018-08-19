@@ -1,0 +1,16 @@
+version: '3'
+services:
+#  nginx:
+#    image: nginx:latest
+#    container_name: nginx
+#    ports:
+#      - "9090:9090"
+#    volumes:
+#      - ./nginx:/etc/nginx/conf.d
+#    depends_on:
+#      - ghou
+  ghou:
+    build: .
+    ports:
+      - "9090:9090"
+

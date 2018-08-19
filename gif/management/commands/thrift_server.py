@@ -60,7 +60,20 @@ class APIHandler:
             print("::VALID CACHE::")
             response = cache.get("top")
 
+        return response
 
+
+    def getTopNoCache(self):
+        print("[Server] Handling client request no cache")
+
+
+
+        print(":::CACHE EXPIRES")
+        queryset = Gif.objects.all().order_by('-views')[:10]
+        top = map(lambda item: {"url": item.url, "description": item.description, "views": item.views}, queryset)
+        response = str(json.dumps(top))
+        cache.set("top", response, timeout=10)
+        print(":::DATABASE QUERYSET:::")
 
         return response
 
