@@ -1,3 +1,3 @@
-service HelloSvc {
- string hello_func()
+service APIsvc {
+ string getTop()
 }
