@@ -36,15 +36,33 @@ from api import APIsvc
 import logging
 logging.basicConfig()
 from gif.models import Gif
-
+import json
+from django.core.cache import cache
 #now define the service handler according to your thrift method declaration
 class APIHandler:
     def __init__(self):
         pass
 
     def getTop(self):
+
         print("[Server] Handling client request")
-        return Gif.objects.first().description
+
+
+        if(cache.ttl("top")==0):
+
+            print(":::CACHE EXPIRES")
+            queryset = Gif.objects.all().order_by('-views')[:10]
+            top = map(lambda item: {"url": item.url, "description": item.description, "views": item.views}, queryset)
+            response = str(json.dumps(top))
+            cache.set("top",response,timeout=10)
+            print(":::DATABASE QUERYSET:::")
+        else:
+            print("::VALID CACHE::")
+            response = cache.get("top")
+
+
+
+        return response
 
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
@@ -60,6 +78,8 @@ class Command(BaseCommand):
         # You could do one of these for a multithreaded server
         #server = TServer.TThreadedServer(processor, transport, tfactory, pfactory)
         #server = TServer.TThreadPoolServer(processor, transport, tfactory, pfactory)
+
+
 
 
 

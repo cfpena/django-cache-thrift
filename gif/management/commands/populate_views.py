@@ -6,12 +6,13 @@ import random
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         populate()
-def ppopulate():
+
+def populate():
 
     print(':::RECREATING VIEWS:::')
     queryset = Gif.objects.all()
     map(mapper,queryset)
 
-def mapper(item: Gif):
+def mapper(item):
     item.views = random.randint(0,1000)
     item.save()
