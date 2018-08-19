@@ -12,6 +12,10 @@ h1{
 	flex-direction: row;
 	flex-wrap: wrap;
 }
+h3{
+	text-align: center;
+	margin-bottom: 10px;
+}
 .container
 {
 	width: 1280px;
