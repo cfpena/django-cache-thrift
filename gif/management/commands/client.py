@@ -7,6 +7,7 @@ from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 import time
 from flask import Flask
+from flask import render_template_string
 
 app = Flask(__name__)
 
@@ -55,8 +56,12 @@ def hello():
     msg = client.getTopNoCache()
     data = json.loads(msg)
 
-    html = "{data}"
-    return html.format(data=str(data))
+    html = "{% for gif in data %}" \
+           "<img src={{ gif.url }}></img>" \
+           "<div >Description: {{ gif.description }}</div>"\
+            "<div >Views: {{ gif.views }}</div>" \
+            "{% endfor %}"
+    return render_template_string(html,data=data)
 
 
 app.run(host='0.0.0.0', port=8080)
