@@ -36,7 +36,7 @@ class APIHandler:
             queryset = Gif.objects.all().order_by('-views')[:10]
             top = map(lambda item: {"url": item.url, "description": item.description, "views": item.views}, queryset)
             response = str(json.dumps(top))
-            cache.set("top",response,timeout=10)
+            cache.set("top",response,timeout=3600)
             print(":::DATABASE QUERYSET:::")
         else:
             print("::VALID CACHE::")
