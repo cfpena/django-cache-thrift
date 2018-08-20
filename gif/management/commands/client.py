@@ -6,13 +6,66 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 import time
-trans = TSocket.TSocket("104.131.10.154", 9090)
-#trans = TSocket.TSocket("localhost", 9090)
-trans = TTransport.TBufferedTransport(trans)
-proto = TBinaryProtocol.TBinaryProtocol(trans)
-client = APIsvc.Client(proto)
+from flask import Flask
 
-trans.open()
+app = Flask(__name__)
+
+
+@app.route("/")
+def hello():
+    trans = TSocket.TSocket("104.131.10.154", 9090)
+    # trans = TSocket.TSocket("localhost", 9090)
+    trans = TTransport.TBufferedTransport(trans)
+    proto = TBinaryProtocol.TBinaryProtocol(trans)
+    client = APIsvc.Client(proto)
+
+    trans.open()
+
+    # top_time = []
+    # # FOR TOP
+    # for number in range(1, 10):
+    #     a = time.time()
+    #     msg = client.getTop()
+    #     b = time.time()
+    #     data = json.loads(msg)
+    #     top_time.append(b - a)
+    #     # print("[Client] top: %s" % str(data))
+    #
+    # top_no_cache_time = []
+    # # FOR TOP NO CACHE
+    # for number in range(1, 10):
+    #     a = time.time()
+    #     msg = client.getTopNoCache()
+    #     b = time.time()
+    #     data = json.loads(msg)
+    #     top_no_cache_time.append(b - a)
+    #     # print("[Client] top no cache: %s" % str(data))
+    # trans.close()
+    #
+    # sum = 0
+    # for number in top_time:
+    #     sum += number
+    # print("No cache time: " + str(sum / len(top_time)))
+    #
+    # sum = 0
+    # for number in top_no_cache_time:
+    #     sum += number
+    # print("Cache time: " + str(sum / len(top_no_cache_time)))
+
+    msg = client.getTopNoCache()
+    data = json.loads(msg)
+
+    html = "{data}"
+    return html.format(data=str(data))
+
+
+app.run(host='0.0.0.0', port=8080)
+
+
+
+
+
+
 
 # all_gifs_time=[]
 # #FOR ALL GIFS
@@ -26,36 +79,6 @@ trans.open()
 
 
 
-top_time=[]
-#FOR TOP
-for number in range(1,10):
-    a = time.time()
-    msg = client.getTop()
-    b = time.time()
-    data = json.loads(msg)
-    top_time.append(b - a)
-    #print("[Client] top: %s" % str(data))
-
-top_no_cache_time = []
-#FOR TOP NO CACHE
-for number in range(1,10):
-    a = time.time()
-    msg = client.getTopNoCache()
-    b = time.time()
-    data = json.loads(msg)
-    top_no_cache_time.append(b - a)
-    #print("[Client] top no cache: %s" % str(data))
-trans.close()
-
-sum=0
-for number in top_time:
-    sum +=number
-print("No cache time: " + str(sum/len(top_time)))
-
-sum=0
-for number in top_no_cache_time:
-    sum +=number
-print("Cache time: " + str( sum/len(top_no_cache_time)))
 
 #print(all_gifs_time)
 
