@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 sys.path.append("gen-py")
 from api import APIsvc
@@ -27,7 +29,8 @@ for number in range(1,20):
     b = time.time()
     data = json.loads(msg)
     top_time.append(b - a)
-    print("[Client] top: %s" % str(data))
+    #print("[Client] top: %s" % str(data))
+print("Pruebas con cache")
 print(top_time)
 
 
@@ -39,8 +42,9 @@ for number in range(1, 20):
     b = time.time()
     data = json.loads(msg)
     top_no_cache_time.append(b - a)
-    print("[Client] top no cache: %s" % str(data))
+    #print("[Client] top no cache: %s" % str(data))
 trans.close()
+print("Pruebas sin cache")
 print(top_no_cache_time)
 
 
