@@ -12,8 +12,9 @@ var gifs = ['https://38.media.tumblr.com/9f6c25cc350f12aa74a7dc386a5c4985/tumblr
 console.log("hola");
 
 function showTop(container){
-	console.log("entro");
-	for (var i=0; i < 10; i++) {
+
+	console.log("entro");  
+  for (var i=0; i < 10; i++) {
         etiqueta= "#gif" + i;
         //console.log(etiqueta);
         img = container.querySelector(etiqueta);

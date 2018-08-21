@@ -8,8 +8,8 @@ from thrift.protocol import TBinaryProtocol
 import time
 from flask import Flask
 from flask import render_template_string
-
-app = Flask(__name__)
+from flask import render_template
+app = Flask(__name__, template_folder="templates")
 
 
 @app.route("/")
@@ -22,46 +22,11 @@ def hello():
 
     trans.open()
 
-    # top_time = []
-    # # FOR TOP
-    # for number in range(1, 10):
-    #     a = time.time()
-    #     msg = client.getTop()
-    #     b = time.time()
-    #     data = json.loads(msg)
-    #     top_time.append(b - a)
-    #     # print("[Client] top: %s" % str(data))
-    #
-    # top_no_cache_time = []
-    # # FOR TOP NO CACHE
-    # for number in range(1, 10):
-    #     a = time.time()
-    #     msg = client.getTopNoCache()
-    #     b = time.time()
-    #     data = json.loads(msg)
-    #     top_no_cache_time.append(b - a)
-    #     # print("[Client] top no cache: %s" % str(data))
-    # trans.close()
-    #
-    # sum = 0
-    # for number in top_time:
-    #     sum += number
-    # print("No cache time: " + str(sum / len(top_time)))
-    #
-    # sum = 0
-    # for number in top_no_cache_time:
-    #     sum += number
-    # print("Cache time: " + str(sum / len(top_no_cache_time)))
+  
 
-    msg = client.getTopNoCache()
+    msg = client.getTop()
     data = json.loads(msg)
-
-    html = "{% for gif in data %}" \
-           "<img src={{ gif.url }}></img>" \
-           "<div >Description: {{ gif.description }}</div>"\
-            "<div >Views: {{ gif.views }}</div>" \
-            "{% endfor %}"
-    return render_template_string(html,data=data)
+    return render_template('index.html',data=data)
 
 
 app.run(host='0.0.0.0', port=8080)
