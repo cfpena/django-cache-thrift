@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>GIFS Proyecto-Pena-Borbor-Plascencia</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+  .container{
+    background-color: 		#808080;
+    padding-right: 15px;
+   padding-left: 15px;
+   margin-right: auto;
+   margin-left: auto;
+   max-width: 900px;
+   overflow:hidden;
+   min-height:0px !important;
+   height: 100%;
+  }
+
+.container .box{
+  background-color: 		#E0E0E0;
+  height: 35%;
+  padding: 10px 20px;
+  box-sizing: border-box;
+}
+</style>
+</head>
+  <body>
+        <div class="container">
+                <h1>Gif Tops</h1> 
+                {% for gif in data %}
+                <div class="col-md-3 box">             
+                    <img class="img-thumbnail" src={{ gif.url}} class="col-md-8" ></img>
+                    <div>
+                      <p><span>Views: </span> {{ gif.views }}</p>
+                      <p><span>Description: </span> {{ gif.description }}</p>
+                    </div>
+                </div> 
+                {% endfor %}
+           
+        </div>
+</body>
+</html>
