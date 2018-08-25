@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import sys
 sys.path.append("gen-py")
 from api import APIsvc
@@ -9,19 +11,15 @@ import time
 import datetime
 
 
-trans = TSocket.TSocket("104.131.10.154", 9090)
-trans = TTransport.TBufferedTransport(trans)
-proto = TBinaryProtocol.TBinaryProtocol(trans)
-client = APIsvc.Client(proto)
-
 trans_local = TSocket.TSocket("localhost", 9090)
 trans_local = TTransport.TBufferedTransport(trans_local)
 proto = TBinaryProtocol.TBinaryProtocol(trans_local)
 client_local = APIsvc.Client(proto)
 
 
-trans.open()
+
 trans_local.open()
+
 
 top_time = []
 # FOR TOP
@@ -46,6 +44,7 @@ for number in range(1, 2):
     #print("[Client] top no cache: %s" % str(data))
 # trans.close()
 print(top_no_cache_time)
+
 
 
 top_time_local = []
@@ -73,17 +72,6 @@ trans_local.close()
 print(top_no_cache_time_local)
 
 
-
-
-sum = 0
-for number in top_time:
-    sum += number
-print("Cache time: " + str(sum / len(top_time)))
-
-sum = 0
-for number in top_no_cache_time:
-    sum += number
-print("No cache time: " + str(sum / len(top_no_cache_time)))
 
 
 sum = 0
@@ -122,7 +110,7 @@ df = pd.DataFrame(top_time_local,columns=['CACHE - LOCAL'])
 print("Estadisticas de prueba con cache de servidor local")
 print(df.describe())
 df.plot.box()
-#df.plot.box(showfliers=False)
+df.plot.box(showfliers=False)
 plt.show()
 
 
@@ -131,7 +119,7 @@ df = pd.DataFrame(top_no_cache_time_local,columns=['NO CACHE - LOCAL'])
 print("Estadisticas de prueba sin cache de servidor local")
 print(df.describe())
 df.plot.box()
-#df.plot.box(showfliers=False)
+df.plot.box(showfliers=False)
 plt.show()
 
 
