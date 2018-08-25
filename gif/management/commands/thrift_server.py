@@ -59,6 +59,16 @@ class APIHandler:
 
         return response
 
+    def getGifsPaginated(self, page):
+        queryset = Gif.objects.all()
+        count=len(queryset)
+        pages=count/20
+
+        queryset=queryset[page*20:(page*20)+20]
+        top = map(lambda item: {"url": item.url, "description": item.description, "views": item.views}, queryset)
+        response = str(json.dumps(top))
+        return response
+
 class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         handler = APIHandler()

@@ -12,22 +12,25 @@ from flask import render_template
 app = Flask(__name__, template_folder="templates")
 
 
+#trans = TSocket.TSocket("104.131.10.154", 9090)
+trans = TSocket.TSocket("localhost", 9090)
+trans = TTransport.TBufferedTransport(trans)
+proto = TBinaryProtocol.TBinaryProtocol(trans)
+client = APIsvc.Client(proto)
+
+trans.open()
+
 @app.route("/")
 def hello():
-    trans = TSocket.TSocket("104.131.10.154", 9090)
-    # trans = TSocket.TSocket("localhost", 9090)
-    trans = TTransport.TBufferedTransport(trans)
-    proto = TBinaryProtocol.TBinaryProtocol(trans)
-    client = APIsvc.Client(proto)
 
-    trans.open()
-
-  
 
     msg = client.getTop()
     data = json.loads(msg)
-    return render_template('index.html',data=data)
 
+
+    gifs = client.getGifsPaginated(2)
+    print(gifs)
+    return render_template('index.html',data=data,gifs=gifs)
 
 app.run(host='0.0.0.0', port=8080)
 

@@ -6,6 +6,7 @@ from thrift.transport import TSocket
 from thrift.transport import TTransport
 from thrift.protocol import TBinaryProtocol
 import time
+import datetime
 
 
 trans = TSocket.TSocket("104.131.10.154", 9090)
@@ -24,27 +25,27 @@ trans_local.open()
 
 top_time = []
 # FOR TOP
-for number in range(1,20):
+for number in range(1,2):
     a = time.time()
     msg = client.getTop()
     b = time.time()
     data = json.loads(msg)
     top_time.append(b - a)
     #print("[Client] top: %s" % str(data))
-#print(top_time)
+print(top_time)
 
 
 top_no_cache_time = []
 # FOR TOP NO CACHE
-for number in range(1, 20):
+for number in range(1, 2):
     a = time.time()
     msg = client.getTopNoCache()
     b = time.time()
     data = json.loads(msg)
     top_no_cache_time.append(b - a)
     #print("[Client] top no cache: %s" % str(data))
-trans.close()
-#print(top_no_cache_time)
+# trans.close()
+print(top_no_cache_time)
 
 
 top_time_local = []
@@ -132,6 +133,24 @@ print(df.describe())
 df.plot.box()
 #df.plot.box(showfliers=False)
 plt.show()
+
+
+time=datetime.datetime.now()
+time2=time + datetime.timedelta(minutes=1)
+count=0
+
+
+
+while time <= time2:
+    msg = client.getTop()
+    count+=1
+    time = datetime.datetime.now()
+print("Request getTop per minute: "+ str(count))
+trans.close()
+
+
+
+
 
 
 

@@ -26,6 +26,7 @@ if len(sys.argv) <= 1 or sys.argv[1] == '--help':
   print '  string getTop()'
   print '  string getTopNoCache()'
   print '  string getGifs()'
+  print '  string getGifsPaginated(i32 page)'
   print ''
   sys.exit(0)
 
@@ -94,6 +95,12 @@ elif cmd == 'getGifs':
     print 'getGifs requires 0 args'
     sys.exit(1)
   pp.pprint(client.getGifs())
+
+elif cmd == 'getGifsPaginated':
+  if len(args) != 1:
+    print 'getGifsPaginated requires 1 args'
+    sys.exit(1)
+  pp.pprint(client.getGifsPaginated(eval(args[0]),))
 
 else:
   print 'Unrecognized method %s' % cmd
